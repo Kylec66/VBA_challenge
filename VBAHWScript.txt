@@ -1,0 +1,78 @@
+VBA Script:
+
+Sub StockHw():
+
+For Each ws In Worksheets
+
+Dim I As Long
+Dim Ticker As String
+Dim TotalSV As Double
+Dim OP As Double
+Dim CP As Double
+Dim SumRow As Integer
+Dim YC As Double
+Dim PC As Double
+
+
+
+SumRow = 2
+TotalSV = 0
+OP = ws.Cells(2, 3).Value
+CP = 0
+YC = 0
+PC = 0
+
+LastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+
+    For I = 2 To LastRow
+        
+        TotalSV = TotalSV + ws.Cells(I, 7).Value
+
+        If ws.Cells(I + 1, 1).Value <> ws.Cells(I, 1).Value Then
+
+            Ticker = ws.Cells(I, 1).Value
+
+            TotalV = TotalV + ws.Cells(I, 7).Value
+
+            ws.Range("I" & SumRow).Value = Ticker
+
+            ws.Range("L" & SumRow).Value = TotalSV
+      
+            CP = ws.Cells(I, 6).Value
+      
+            YC = CP - OP
+            
+            ws.Range("J" & SumRow).Value = YC
+            
+                If ws.Cells(I, "J") > 0 Then
+                
+                  ws.Cells(I, "J").Interior.ColorIndex = 4
+            
+                  Else: ws.Cells(I, "J").Interior.ColorIndex = 3
+        
+                End If
+            
+            If OP > 0 Then
+                PC = YC / OP
+            Else
+                PC = 0
+            End If
+            
+        
+            ws.Range("K" & SumRow).Value = PC
+      
+            OP = ws.Cells(I + 1, 3).Value
+      
+            SumRow = SumRow + 1
+      
+            TotalSV = 0
+
+    
+        End If
+    
+    Next I
+    
+Next ws
+
+
+End Sub
